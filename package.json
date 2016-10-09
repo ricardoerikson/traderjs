@@ -4,15 +4,16 @@
   "description": "Retrieve temporal data about stock market",
   "main": "dist/index.js",
   "scripts": {
-    "check-coverage": "nyc check-coverage --statements 90 --functions 90 --branches 90 --lines 90",
-    "report-coverage": "bash <(curl -s https://codecov.io/bash)",
-    "commit": "git-cz",
     "prebuild": "rimraf dist",
     "build": "babel --copy-files --out-dir dist --ignore *.test.js src",
-    "cover": "nyc npm t",
+    "check-coverage": "nyc check-coverage --statements 90 --functions 90 --branches 90 --lines 90",
+    "commit": "git-cz",
+    "cover": "nyc npm -s t",
+    "lint": "eslint src/**/*.js",
+    "report-coverage": "bash <(curl -s https://codecov.io/bash)",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "mocha src/*.test.js --compilers js:babel-register",
-    "watch:test": "npm t -- -w",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "watch:test": "npm -s t -- -w"
   },
   "repository": {
     "type": "git",
@@ -52,7 +53,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run cover && npm run check-coverage"
+      "pre-commit": "npm run -s lint && npm run -s cover && npm run -s check-coverage"
     },
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"

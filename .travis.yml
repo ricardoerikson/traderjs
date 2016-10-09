@@ -12,12 +12,13 @@ before_install:
 before_script:
   - npm prune
 script:
-  - npm run cover
-  - npm run check-coverage
-  - npm run build
+  - npm run -s lint
+  - npm run -s cover
+  - npm run -s check-coverage
+  - npm run -s build
 after_success:
-  - npm run report-coverage
-  - npm run semantic-release
+  - npm run -s report-coverage
+  - npm run -s semantic-release
 branches:
   only:
     - master
