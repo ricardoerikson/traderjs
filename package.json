@@ -1,17 +1,19 @@
 {
   "name": "traderjs",
-  "version": "1.0.0",
+  "version": "0.0.0-semantically-released",
   "description": "Retrieve temporal data about stock market",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "commit": "git-cz",
     "prebuild": "rimraf dist",
     "build": "babel --copy-files --out-dir dist --ignore *.test.js src",
-    "test:watch": "mocha src/*.test.js -w --compilers js:babel-register"
+    "test": "mocha src/*.test.js --compilers js:babel-register",
+    "test:watch": "mocha src/*.test.js -w --compilers js:babel-register",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ricardoerikson/traderjs.git"
+    "url": "https://github.com/ricardoerikson/traderjs.git"
   },
   "keywords": [
     "stock",
@@ -38,7 +40,9 @@
     "cz-conventional-changelog": "1.2.0",
     "eslint": "3.7.1",
     "mocha": "3.1.0",
-    "rimraf": "2.5.4"
+    "rimraf": "2.5.4",
+    "semantic-release-cli": "1.4.1",
+    "semantic-release": "^4.3.5"
   },
   "config": {
     "commitizen": {
