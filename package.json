@@ -4,11 +4,14 @@
   "description": "Retrieve temporal data about stock market",
   "main": "dist/index.js",
   "scripts": {
+    "check-coverage": "nyc check-coverage --statements 90 --functions 90 --branches 90 --lines 90",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
     "commit": "git-cz",
     "prebuild": "rimraf dist",
     "build": "babel --copy-files --out-dir dist --ignore *.test.js src",
+    "cover": "nyc npm t",
     "test": "mocha src/*.test.js --compilers js:babel-register",
-    "test:watch": "mocha src/*.test.js -w --compilers js:babel-register",
+    "watch:test": "npm t -- -w",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
@@ -36,13 +39,15 @@
     "babel-preset-stage-2": "6.17.0",
     "babel-register": "6.16.3",
     "chai": "3.5.0",
+    "codecov": "1.0.1",
     "commitizen": "2.8.6",
     "cz-conventional-changelog": "1.2.0",
     "eslint": "3.7.1",
     "mocha": "3.1.0",
+    "nyc": "8.3.1",
     "rimraf": "2.5.4",
-    "semantic-release-cli": "1.4.1",
-    "semantic-release": "^4.3.5"
+    "semantic-release": "^4.3.5",
+    "semantic-release-cli": "1.4.1"
   },
   "config": {
     "commitizen": {
