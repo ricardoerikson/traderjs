@@ -14,25 +14,51 @@ import _ from 'lodash';
  */
 let getConfigObject = ({symbol,interval, period, fields}) => {
     let f = _.intersection(fields, ['d', 'o', 'h', 'c', 'l', 'v']).join(',');
-    let [x,q] = symbol.split(':');
+    let symbols = symbol.split(':');
+    let x,q;
+    if (symbols.length == 1) {
+        [q] = symbols;
+    } else {
+        [x, q] = symbols;
+    }
     let p = period;
     let i = interval;
     return {x, q, f, i, p};
 };
 
-export let prices = (config, cb) => {
-    let options = {
-        host: 'www.google.com',
-        path: `/finance/getprices?${param(getConfigObject(config))}`
-    };
-    let parser;
-    http.get(options, (resp) => {
-        resp.setEncoding('utf8');
-        resp.on('data', (data) => {
-            parser = new GoogleFinanceParser(data);
-            parser.parse(cb);
+class Traderjs {
+    constructor() {
+        this._config = {interval: 86400, period: '30d', fields: ['d', 'o', 'h', 'c', 'l', 'v']};
+        this._writeTo = null;
+        this._transformer = null;
+    }
+    config(config) {
+        this._config = config;
+        return this;
+    }
+    writeTo(writeTo) {
+        this._writeTo = writeTo;
+        return this;
+    }
+    transformer(transformer) {
+        this._transformer = transformer;
+        return this;
+    }
+    do(cb) {
+        let options = {
+            host: 'www.google.com',
+            path: `/finance/getprices?${param(getConfigObject(this._config))}`
+        };
+        let parser;
+        http.get(options, (resp) => {
+            resp.setEncoding('utf8');
+            resp.on('data', (data) => {
+                parser = new GoogleFinanceParser(data);
+                parser.parse(cb);
+            });
         });
-    });
-};
 
+    }
+}
 
+export default new Traderjs();
