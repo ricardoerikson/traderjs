@@ -10,9 +10,10 @@
     "commit": "git-cz",
     "cover": "nyc npm -s t",
     "lint": "eslint src/**/*.js",
-    "report-coverage": "bash <(curl -s https://codecov.io/bash)",
+    "report-codecov": "nyc report --reporter=text-lcov | codecov",
+    "report-coverage": "npm run cover && npm run report-codecov",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "mocha src/*.test.js --compilers js:babel-register",
+    "test": "mocha src/test/**/*.test.js --compilers js:babel-register",
     "watch:test": "npm -s t -- -w"
   },
   "repository": {
