@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: node_js
 cache:
   directories:
@@ -16,6 +16,7 @@ addons:
 node_js:
   - "6"
 before_install:
+  - sudo apt-get install libgnome-keyring-dev
   - npm i -g npm@latest
 before_script:
   - npm prune
