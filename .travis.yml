@@ -5,10 +5,18 @@ cache:
     - node_modules
 notifications:
   email: false
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 node_js:
   - "6"
 before_install:
-  - npm i -g npm@^2.0.0
+  - npm i -g npm@latest
 before_script:
   - npm prune
 script:
