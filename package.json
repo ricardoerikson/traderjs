@@ -65,5 +65,8 @@
       "es2015",
       "stage-2"
     ]
+  },
+  "dependencies": {
+    "lodash": "4.16.4"
   }
 }
