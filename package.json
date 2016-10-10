@@ -13,7 +13,7 @@
     "report-codecov": "nyc report --reporter=text-lcov | codecov",
     "report-coverage": "npm run cover && npm run report-codecov",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "mocha src/test/**.test.js --compilers js:babel-register --timout 15000",
+    "test": "mocha src/test/**.test.js --compilers js:babel-register --timeout 15000",
     "watch:test": "npm -s t -- -w"
   },
   "repository": {
