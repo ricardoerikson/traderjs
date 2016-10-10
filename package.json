@@ -9,11 +9,11 @@
     "check-coverage": "nyc check-coverage --statements 90 --functions 90 --branches 90 --lines 90",
     "commit": "git-cz",
     "cover": "nyc npm -s t",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint src/**.js src/**/*.js",
     "report-codecov": "nyc report --reporter=text-lcov | codecov",
     "report-coverage": "npm run cover && npm run report-codecov",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "mocha src/test/**/*.test.js --compilers js:babel-register",
+    "test": "mocha src/test/**.test.js --compilers js:babel-register --timout 15000",
     "watch:test": "npm -s t -- -w"
   },
   "repository": {
@@ -46,6 +46,7 @@
     "cz-conventional-changelog": "1.2.0",
     "eslint": "3.7.1",
     "ghooks": "1.3.2",
+    "jquery-param": "0.2.0",
     "mocha": "3.1.0",
     "nyc": "8.3.1",
     "rimraf": "2.5.4",

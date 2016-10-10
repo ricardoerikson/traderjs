@@ -69,7 +69,7 @@ describe('parsers/google-finance.js', () => {
             });
         });
         describe('.parse()', () => {
-            it('data should be empty', function (done) {
+            it('data should be empty', (done) => {
                 finance.parse(({data}) => {
                     data.should.be.empty;
                     done();
