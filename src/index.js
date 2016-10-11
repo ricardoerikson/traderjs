@@ -12,18 +12,28 @@ import _ from 'lodash';
  *                                   'h' - high, 'l' - low, 'v' - volume).
  * @return {Object} JSON Object with the new data.
  */
-let getConfigObject = ({symbol,interval, period, fields}) => {
-    let f = _.intersection(fields, ['d', 'o', 'h', 'c', 'l', 'v']).join(',');
-    let symbols = symbol.split(':');
-    let x,q;
-    if (symbols.length == 1) {
-        [q] = symbols;
-    } else {
-        [x, q] = symbols;
+
+let stockSymbols = (symbol) => {
+    if(symbol.indexOf(':') == -1) {
+        symbol = ':'.concat(symbol);
     }
+    let [x,q] = symbol.split(':');
+    x = x || undefined;
+    return {x,q};
+};
+
+let configObject = ({symbol,interval, period, fields}) => {
+    let f = _.intersection(fields, ['d', 'o', 'h', 'c', 'l', 'v']).join(',');
+    let {x,q} = stockSymbols(symbol);
     let p = period;
     let i = interval;
-    return {x, q, f, i, p};
+    let obj = {};
+    if (x) obj.x = x;
+    if (q) obj.q = q;
+    if (f) obj.f = f;
+    if (i) obj.i = i;
+    if (p) obj.p = p;
+    return obj;
 };
 
 class Traderjs {
@@ -47,7 +57,7 @@ class Traderjs {
     do(cb) {
         let options = {
             host: 'www.google.com',
-            path: `/finance/getprices?${param(getConfigObject(this._config))}`
+            path: `/finance/getprices?${param(configObject(this._config))}`
         };
         let parser;
         http.get(options, (resp) => {
@@ -61,4 +71,7 @@ class Traderjs {
     }
 }
 
-export default new Traderjs();
+module.exports = {
+    traderjs: new Traderjs(),
+    configObject
+};
