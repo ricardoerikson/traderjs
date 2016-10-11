@@ -1,11 +1,30 @@
 import {expect, should} from 'chai';
 import {traderjs, configObject} from '../index';
-
+import nock from 'nock';
+import fs from 'fs';
 
 should();
 
 describe('index.js', () => {
     describe('Traderjs.config()', () => {
+
+        before((done) => {
+            fs.readFile(`${__dirname}/../data/nasd-goog-2-86400-2d-doclhv.txt`, 'utf8', (err, data) => {
+                nock('http://www.google.com')
+                    .persist()
+                    .filteringPath(/[xqifp]=[^&]*/g)
+                    .get('/finance/getprices')
+                    .query(true)
+                    .reply(200, data);
+                done();
+            });
+        });
+
+        after((done) => {
+            nock.cleanAll();
+            done();
+        });
+
         it('should retrieve data using STOCKEXC:STOCK as symbol', (done) => {
             traderjs
                 .config({symbol: 'NASD:GOOG', interval: 86400, period: '2d', fields: ['d','o','c','l','h','v'] })
