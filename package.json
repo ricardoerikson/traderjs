@@ -10,10 +10,11 @@
     "commit": "git-cz",
     "cover": "nyc npm -s t",
     "lint": "eslint src/**.js src/**/*.js",
-    "report-codecov": "nyc report --reporter=text-lcov | codecov",
-    "report-coverage": "npm run cover && npm run report-codecov",
+    "report:html": "nyc report --reporter=html",
+    "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
+    "report-coverage": "npm run cover && npm run report:lcov && codecov",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "mocha src/test/**.test.js --compilers js:babel-register --timeout 15000",
+    "test": "mocha src/test/*.js --recursive --compilers js:babel-register --timeout 15000",
     "watch:test": "npm -s t -- -w"
   },
   "repository": {
@@ -48,6 +49,7 @@
     "ghooks": "1.3.2",
     "jquery-param": "0.2.0",
     "mocha": "3.1.0",
+    "nock": "8.1.0",
     "nyc": "8.3.1",
     "rimraf": "2.5.4",
     "semantic-release": "^4.3.5",
