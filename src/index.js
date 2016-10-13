@@ -1,5 +1,6 @@
 import http from 'http';
 import GoogleFinanceParser from './parsers/google-finance.js';
+import Transform from './transform/transform';
 import JsonTransform from './transform/json-transform';
 import param from 'jquery-param';
 import _ from 'lodash';
@@ -52,6 +53,9 @@ class Traderjs {
         return this;
     }
     transformer(transformer) {
+        if (!(transformer instanceof Transform)) {
+            throw TypeError('Should be an instance of "Transform"');
+        }
         this._transformer = transformer;
         return this;
     }

@@ -102,6 +102,13 @@ describe('index.js', () => {
                 });
         });
 
+        it('should throw a TypeError', (done) => {
+            class A {}
+            let a = new A();
+            expect(() => {traderjs.transform(a);}).to.throw(TypeError);
+            done();
+        });
+
     });
 
 });
