@@ -9,6 +9,9 @@ export default class Transform {
     get separator() {
         return this._separator;
     }
+    _transformLine() {
+        throw new Error('You should overwrite this method');
+    }
     transform() {
         throw new Error('You should overwrite this method');
     }

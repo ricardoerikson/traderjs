@@ -1,5 +1,6 @@
 import http from 'http';
 import GoogleFinanceParser from './parsers/google-finance.js';
+import JsonTransform from './transform/json-transform';
 import param from 'jquery-param';
 import _ from 'lodash';
 
@@ -40,7 +41,7 @@ class Traderjs {
     constructor() {
         this._config = {interval: 86400, period: '30d', fields: ['d', 'o', 'h', 'c', 'l', 'v']};
         this._writeTo = null;
-        this._transformer = null;
+        this._transformer = new JsonTransform();
     }
     config(config) {
         this._config = config;
@@ -64,7 +65,11 @@ class Traderjs {
             resp.setEncoding('utf8');
             resp.on('data', (data) => {
                 parser = new GoogleFinanceParser(data);
-                parser.parse(cb);
+                parser.parse((data) => {
+                    this._transformer.transform(data.data, (transformedData) => {
+                        cb(transformedData);
+                    });
+                });
             });
         });
 

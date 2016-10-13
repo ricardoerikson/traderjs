@@ -1,11 +1,13 @@
 import {expect, should} from 'chai';
 import {traderjs, configObject} from '../index';
+import JsonTransform from '../transform/json-transform';
 import nock from 'nock';
 import fs from 'fs';
 
 should();
 
 describe('index.js', () => {
+
     describe('Traderjs.config()', () => {
 
         before((done) => {
@@ -57,6 +59,49 @@ describe('index.js', () => {
             params.should.not.have.any.keys('i', 'p', 'x', 'f');
             done();
         });
+    });
+
+    describe('.transformer()', () => {
+        before((done) => {
+            fs.readFile(`${__dirname}/../data/nasd-goog-1-86400-2d-doclhv.txt`, 'utf8', (err, data) => {
+                nock('http://www.google.com')
+                    .persist()
+                    .filteringPath(/[xqifp]=[^&]*/g)
+                    .get('/finance/getprices')
+                    .query(true)
+                    .reply(200, data);
+                done();
+            });
+        });
+
+        after((done) => {
+            nock.cleanAll();
+            done();
+        });
+
+        let config = {symbol: 'NASD:GOOG', interval: 86400, period: '2d', fields: ['d','o','c','l','h','v'] };
+
+        it('should return an array of objects', (done) => {
+            traderjs
+                .config(config)
+                .transformer(new JsonTransform())
+                .do((data) => {
+                    expect(data).to.have.length(2);
+                    done();
+                });
+        });
+
+        it('should return an array of objects with keys and values', (done) => {
+            traderjs
+                .config(config)
+                .transformer(new JsonTransform())
+                .do((data) => {
+                    expect(data).to.have.deep.property('[0].date', '1475784000000');
+                    expect(data).to.have.deep.property('[1].volume', '933158');
+                    done();
+                });
+        });
+
     });
 
 });

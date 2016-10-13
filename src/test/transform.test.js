@@ -14,13 +14,22 @@ describe('transform/transform.js', () => {
 
     });
 
-    describe('.transform()', () => {
+    describe('._transformLine()', () => {
 
-        it('should throw an error calling Transform.transform()', (done) => {
+        it('should throw an error calling Transform._transformLine()', (done) => {
             let transform = new Transform(['high'], ',');
-            expect(() => transform.transform('')).to.throw(Error);
+            expect(() => transform._transformLine('')).to.throw(Error);
             done();
         });
 
+    });
+
+    describe('.transform()', () => {
+
+        it('should throw an error when calling Transform.transform()', (done) => {
+            let transform = new Transform();
+            expect(() => transform.transform(null, ()=>{ return ''; })).to.throw(Error);
+            done();
+        });
     });
 });
