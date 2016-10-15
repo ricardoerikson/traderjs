@@ -12,7 +12,7 @@ export default class JsonWriter extends Writer {
      * @override
      */
     write(content, cb) {
-        this._fsObject.writeFile(this.filename, JSON.stringify(content), (err) => {
+        this._fsObject.writeFile(this.filename, JSON.stringify(content), () => {
             // if (err) throw err;
             cb();
         });
