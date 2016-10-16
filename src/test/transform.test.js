@@ -1,4 +1,5 @@
 import Transform from '../transform/transform';
+import Writer from '../transform/writer/writer';
 import {expect} from 'chai';
 
 describe('transform/transform.js', () => {
@@ -29,6 +30,28 @@ describe('transform/transform.js', () => {
         it('should throw an error when calling Transform.transform()', (done) => {
             let transform = new Transform();
             expect(() => transform.transform(null, ()=>{ return ''; })).to.throw(Error);
+            done();
+        });
+    });
+
+    describe('.writer', () => {
+
+        it('should be null', (done) => {
+            let transform = new Transform();
+            expect(transform.writer).to.be.null;
+            done();
+        });
+
+        it('should throw an Error', (done) => {
+            let transform = new Transform();
+            expect(() => {transform.writer = 'something';}).to.throw(Error);
+            done();
+        });
+
+        it('should not throw Error', (done) => {
+            let transform = new Transform();
+            let writer = new Writer();
+            expect(() => {transform.writer = writer;}).not.to.throw(Error);
             done();
         });
     });

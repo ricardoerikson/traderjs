@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import RawTransform from '../transform/raw-transform';
+import Writer from '../transform/writer/writer';
 
 describe('transform/raw-transform.js', () => {
     let params = ['date','close','high','low','open','volume'];
@@ -88,5 +89,14 @@ describe('transform/raw-transform.js', () => {
         });
 
     });
+
+    describe('.writer', () => {
+        let transform = new RawTransform();
+        it('should be an instance of Writer', (done) => {
+            expect(transform.writer).to.be.an.instanceof(Writer);
+            done();
+        });
+    });
+
 
 });

@@ -1,8 +1,8 @@
-import RawWriter from '../writer/raw-writer';
+import RawWriter from '../transform/writer/raw-writer';
 import {expect} from 'chai';
 import fs from 'fs';
 
-describe('writer/raw-writer.js', () => {
+describe('transform/writer/raw-writer.js', () => {
 
     let tempFolder;
     before((done) => {
@@ -19,7 +19,8 @@ describe('writer/raw-writer.js', () => {
             it('should write to a file', (done) => {
                 let content = ['1,2,3,4,5,6', '7,8,9,10,11,12'];
                 let file = tempFolder.concat('/file.dat');
-                let rawWriter = new RawWriter(file, fs);
+                let rawWriter = new RawWriter();
+                rawWriter.filename = file;
                 rawWriter.write(content, () => {
                     fs.readFile(file, 'utf8', (err, data) => {
                         let expected = ['1,2,3,4,5,6', '7,8,9,10,11,12', ''];
@@ -33,7 +34,8 @@ describe('writer/raw-writer.js', () => {
             it('should accept only Array as content', (done) => {
                 let content = '1,2,3,4,5,6';
                 let file = tempFolder.concat('/file.dat');
-                let rawWriter = new RawWriter(file, fs);
+                let rawWriter = new RawWriter();
+                rawWriter.filename = file;
                 expect(() => {rawWriter.write(content, null);}).to.throw(TypeError);
                 done();
             });

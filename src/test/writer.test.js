@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import Writer from '../writer/writer';
+import Writer from '../transform/writer/writer';
 
-describe('writer/writer.js', () => {
+describe('transform/writer/writer.js', () => {
 
     describe('.write()', () => {
 
