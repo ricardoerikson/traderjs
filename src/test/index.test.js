@@ -2,8 +2,6 @@ import {expect, should} from 'chai';
 import {traderjs, configObject} from '../index';
 import JsonTransform from '../transform/json-transform';
 import RawTransform from '../transform/raw-transform';
-import JsonWriter from '..//writer/json-writer';
-import RawWriter from '..//writer/raw-writer';
 import nock from 'nock';
 import fs from 'fs';
 import dd from 'debug';
@@ -85,6 +83,11 @@ describe('index.js', () => {
             done();
         });
 
+        it('should throw a TypeError', (done) => {
+            expect(() => {traderjs.transformer(1);}).to.throw(TypeError);
+            done();
+        });
+
         it('should return an array of objects', (done) => {
             traderjs
                 .config(config)
@@ -137,7 +140,7 @@ describe('index.js', () => {
             traderjs
                 .config(config)
                 .transformer(new JsonTransform())
-                .writer(file, JsonWriter)
+                .writeTo(file)
                 .do((transformedData, filename) => {
                     expect(transformedData).to.have.length(2);
                     expect(file).to.be.eql(filename);
@@ -157,7 +160,7 @@ describe('index.js', () => {
             traderjs
                 .config(config)
                 .transformer(new RawTransform())
-                .writer(file, RawWriter)
+                .writeTo(file)
                 .do((transformedData, filename) => {
                     expect(transformedData).to.have.length(2);
                     expect(filename).to.be.eql(file);

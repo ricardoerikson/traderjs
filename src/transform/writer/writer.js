@@ -1,17 +1,13 @@
+import fs from 'fs';
+
 /**
  * @classdesc Abstract class for writers. Other classes
  *            should extend this one.
  * @class
  */
 export default class Writer {
-    /**
-     * Create an object to write JSON content to a file
-     * @param  {string} filename - name of the file to write to
-     * @param  {Object} fsObject - 'fs' instance
-     */
-    constructor(filename, fsObject) {
-        this._filename = filename;
-        this._fsObject = fsObject;
+    constructor() {
+        this._fsObject = fs;
     }
     get filename() {
         return this._filename;

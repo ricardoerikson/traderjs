@@ -1,9 +1,11 @@
 import Transform from './transform';
+import JsonWriter from './writer/json-writer';
 import _ from 'lodash';
 
 export default class JsonTransform extends Transform {
     constructor(params=['date','close','high','low','open','volume'], separator=',') {
         super(params, separator);
+        this._writer = new JsonWriter();
     }
     _transformLine(line) {
         let fields = line.split(this.separator);

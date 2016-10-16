@@ -1,4 +1,5 @@
 import JsonTransform from '../transform/json-transform';
+import Writer from '../transform/writer/writer';
 import {expect} from 'chai';
 
 describe('transform/json-transform.js', () => {
@@ -72,6 +73,14 @@ describe('transform/json-transform.js', () => {
                 expect(object).to.have.deep.property('[1].volume', '6');
                 done();
             });
+        });
+    });
+
+    describe('.writer', () => {
+        let transform = new JsonTransform();
+        it('should be an instance of Writer', (done) => {
+            expect(transform.writer).to.be.an.instanceof(Writer);
+            done();
         });
     });
 });
