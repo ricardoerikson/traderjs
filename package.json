@@ -1,7 +1,7 @@
 {
   "name": "traderjs",
   "version": "0.0.0-semantically-released",
-  "description": "Retrieve temporal data about stock market",
+  "description": "Temporal data related to quotes from stock market",
   "main": "dist/index.js",
   "files": [
     "dist/index.js",
