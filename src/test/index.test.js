@@ -1,7 +1,5 @@
 import {expect, should} from 'chai';
-import {traderjs, configObject} from '../index';
-import JsonTransform from '../transform/json-transform';
-import RawTransform from '../transform/raw-transform';
+import {traderjs, configObject, JsonTransform, RawTransform} from '../index';
 import nock from 'nock';
 import fs from 'fs';
 import dd from 'debug';
