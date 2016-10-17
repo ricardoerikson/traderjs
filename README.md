@@ -28,7 +28,7 @@ import traderjs from 'traderjs';
 The simplest approach is to use ES5 style. Just import Traderjs directly using:
 
 ```javascript
-var traderjs = require('traderjs');
+var traderjs = require('traderjs').traderjs;
 ```
 
 ## Usage
@@ -71,8 +71,8 @@ Traderjs will transform the retrieved data so that you can easily use it in othe
 In the piece of code bellow is shown how to convert the data into the JSON format.
 
 ```javascript
-var traderjs = require('traderjs'),
-    JsonTransform = require('traderjs/transform/json-transform');
+var traderjs = require('traderjs').traderjs,
+    JsonTransform = require('traderjs').JsonTransform;
 
 var configuration = {
     symbol: 'NASD:GOOG',
@@ -112,7 +112,7 @@ The data can also be presented in text format, where each line is a candle obtai
 
 ```javascript
 var traderjs = require('traderjs'),
-    RawTransform = require('traderjs/transform/raw-transform');
+    RawTransform = require('traderjs').RawTransform;
 
 traderjs
     .config(configuration)
@@ -137,7 +137,7 @@ The content will only be written to a file if you specify the filename by using 
 ```javascript
 traderjs.
     .config(configuration)
-    .transformer(new RawTransformer())
+    .transformer(new RawTransform())
     .writeTo('/tmp/quotes.dat')
     .temporal(function(data) {
         // ...

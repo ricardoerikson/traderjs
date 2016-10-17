@@ -2,6 +2,7 @@ import http from 'http';
 import GoogleFinanceParser from './parsers/google-finance.js';
 import Transform from './transform/transform';
 import JsonTransform from './transform/json-transform';
+import RawTransform from './transform/raw-transform';
 import param from 'jquery-param';
 import _ from 'lodash';
 
@@ -91,5 +92,7 @@ class Traderjs {
 
 module.exports = {
     traderjs: new Traderjs(),
-    configObject
+    configObject,
+    RawTransform,
+    JsonTransform
 };
