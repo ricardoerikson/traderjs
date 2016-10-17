@@ -4,13 +4,14 @@
   "description": "Temporal data related to quotes from stock market",
   "main": "dist/index.js",
   "files": [
-    "dist/index.js",
+    "dist",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "babel --copy-files --out-dir dist --ignore *.test.js src",
+    "postbuild": "rimraf dist/data",
     "check-coverage": "nyc check-coverage --statements 90 --functions 90 --branches 90 --lines 90",
     "commit": "git-cz",
     "cover": "nyc npm -s t",
