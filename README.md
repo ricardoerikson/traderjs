@@ -55,7 +55,7 @@ traderjs
     })
 ``` 
 
-The example above will retrieve the last two trading days (`period: '2d'`) for the stock `NASD:GOOG` using an interval of `86400` seconds between candles. The `fields` the are going to be retrieved are:
+The example above will retrieve the last two trading days (`period: '2d'`) for the stock `NASD:GOOG` using an interval of `86400` seconds between candles. The `fields` that are going to be retrieved are:
  
  - `d` - date
  - `o` - open
@@ -105,7 +105,6 @@ traderjs
             }
         ]
          */
-        }
     });
 ``` 
 
