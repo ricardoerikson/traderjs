@@ -59,7 +59,7 @@ class Traderjs {
         this._transformer = transformer;
         return this;
     }
-    do(cb) {
+    temporal(cb) {
         let options = {
             host: 'www.google.com',
             path: `/finance/getprices?${param(configObject(this._config))}`

@@ -34,7 +34,7 @@ describe('index.js', () => {
         it('should retrieve data using STOCKEXC:STOCK as symbol', (done) => {
             traderjs
                 .config({symbol: 'NASD:GOOG', interval: 86400, period: '2d', fields: ['d','o','c','l','h','v'] })
-                .do((data) => {
+                .temporal((data) => {
                     expect(data).not.be.null;
                     done();
                 });
@@ -42,7 +42,7 @@ describe('index.js', () => {
         it('should retrieve data using only STOCK as symbol', (done) => {
             traderjs
                 .config({symbol: 'GOOG', interval: 86400, period: '2d', fields: ['d','o','c','l','h','v'] })
-                .do((data) => {
+                .temporal((data) => {
                     expect(data).not.be.null;
                     done();
                 });
@@ -92,7 +92,7 @@ describe('index.js', () => {
             traderjs
                 .config(config)
                 .transformer(new JsonTransform())
-                .do((data) => {
+                .temporal((data) => {
                     expect(data).to.have.length(2);
                     done();
                 });
@@ -102,7 +102,7 @@ describe('index.js', () => {
             traderjs
                 .config(config)
                 .transformer(new JsonTransform())
-                .do((data) => {
+                .temporal((data) => {
                     expect(data).to.have.deep.property('[0].date', '1475784000000');
                     expect(data).to.have.deep.property('[1].volume', '933158');
                     done();
@@ -141,7 +141,7 @@ describe('index.js', () => {
                 .config(config)
                 .transformer(new JsonTransform())
                 .writeTo(file)
-                .do((transformedData, filename) => {
+                .temporal((transformedData, filename) => {
                     expect(transformedData).to.have.length(2);
                     expect(file).to.be.eql(filename);
                     dd('app:writer')('file has been written to: ' + filename);
@@ -161,7 +161,7 @@ describe('index.js', () => {
                 .config(config)
                 .transformer(new RawTransform())
                 .writeTo(file)
-                .do((transformedData, filename) => {
+                .temporal((transformedData, filename) => {
                     expect(transformedData).to.have.length(2);
                     expect(filename).to.be.eql(file);
                     dd('app:writer')('file has been written to: ' + filename);
