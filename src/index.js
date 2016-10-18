@@ -89,7 +89,6 @@ class Traderjs {
 
 module.exports = {
     traderjs: new Traderjs(),
-    configObject,
     RawTransform,
     JsonTransform
 };

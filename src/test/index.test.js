@@ -1,5 +1,5 @@
 import {expect, should} from 'chai';
-import {traderjs, configObject, JsonTransform, RawTransform} from '../index';
+import {traderjs, JsonTransform, RawTransform} from '../index';
 import nock from 'nock';
 import fs from 'fs';
 import dd from 'debug';
@@ -44,22 +44,6 @@ describe('index.js', () => {
                     expect(data).not.be.null;
                     done();
                 });
-        });
-    });
-
-    describe('.configObject()', () => {
-        it('should return object with the following attributes: [q,x]', (done) => {
-            let params = configObject({symbol: 'NASD:GOOG'});
-            params.should.have.all.keys('x','q');
-            done();
-        });
-
-        it('should return object with only attribute q', (done) => {
-            let params = configObject({symbol: 'GOOG'});
-            expect(params['q']).not.to.be.null;
-            expect(params['q']).not.to.be.undefined;
-            params.should.not.have.any.keys('i', 'p', 'x', 'f');
-            done();
         });
     });
 
