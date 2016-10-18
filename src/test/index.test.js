@@ -1,5 +1,5 @@
 import {expect, should} from 'chai';
-import {traderjs, configObject, JsonTransform, RawTransform} from '../index';
+import traderjs from '../index';
 import nock from 'nock';
 import fs from 'fs';
 import dd from 'debug';
@@ -47,22 +47,6 @@ describe('index.js', () => {
         });
     });
 
-    describe('.configObject()', () => {
-        it('should return object with the following attributes: [q,x]', (done) => {
-            let params = configObject({symbol: 'NASD:GOOG'});
-            params.should.have.all.keys('x','q');
-            done();
-        });
-
-        it('should return object with only attribute q', (done) => {
-            let params = configObject({symbol: 'GOOG'});
-            expect(params['q']).not.to.be.null;
-            expect(params['q']).not.to.be.undefined;
-            params.should.not.have.any.keys('i', 'p', 'x', 'f');
-            done();
-        });
-    });
-
     describe('.transformer()', () => {
         before((done) => {
             fs.readFile(`${__dirname}/../data/nasd-goog-1-86400-2d-doclhv.txt`, 'utf8', (err, data) => {
@@ -82,16 +66,39 @@ describe('index.js', () => {
         });
 
         it('should throw a TypeError', (done) => {
-            expect(() => {traderjs.transformer(1);}).to.throw(TypeError);
+            expect(() => {traderjs.transformer(1);}).to.throw(Error);
             done();
         });
 
-        it('should return an array of objects', (done) => {
+        it('should return an array of objects having length 2', (done) => {
             traderjs
                 .config(config)
-                .transformer(new JsonTransform())
+                .transformer('json')
                 .temporal((data) => {
                     expect(data).to.have.length(2);
+                    expect(data[0]).to.be.an('object');
+                    done();
+                });
+        });
+
+        it('should return an array of strings having length 2', (done) => {
+            traderjs
+                .config(config)
+                .transformer('raw')
+                .temporal((data) => {
+                    expect(data).to.have.length(2);
+                    expect(data[0]).to.be.a('string');
+                    done();
+                });
+        });
+
+        it('should return an array of strings with separator ";"', (done) => {
+            let params = ['date','close','high','low','open','volume'];
+            traderjs
+                .config(config)
+                .transformer('raw', params, ',', ';')
+                .temporal((data) => {
+                    expect(data).to.have.deep.property('[0]', '1475784000000;776.86;780.48;775.54;779;1070692');
                     done();
                 });
         });
@@ -99,7 +106,7 @@ describe('index.js', () => {
         it('should return an array of objects with keys and values', (done) => {
             traderjs
                 .config(config)
-                .transformer(new JsonTransform())
+                .transformer('json')
                 .temporal((data) => {
                     expect(data).to.have.deep.property('[0].date', '1475784000000');
                     expect(data).to.have.deep.property('[1].volume', '933158');
@@ -137,7 +144,7 @@ describe('index.js', () => {
             let file = tempFolder.concat('/file.json');
             traderjs
                 .config(config)
-                .transformer(new JsonTransform())
+                .transformer('json')
                 .writeTo(file)
                 .temporal((transformedData, filename) => {
                     expect(transformedData).to.have.length(2);
@@ -157,7 +164,7 @@ describe('index.js', () => {
             let file = tempFolder.concat('/file.dat');
             traderjs
                 .config(config)
-                .transformer(new RawTransform())
+                .transformer('raw')
                 .writeTo(file)
                 .temporal((transformedData, filename) => {
                     expect(transformedData).to.have.length(2);
