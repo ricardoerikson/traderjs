@@ -1,6 +1,5 @@
 import http from 'http';
 import GoogleFinanceParser from './parsers/google-finance.js';
-import Transform from './transform/transform';
 import JsonTransform from './transform/json-transform';
 import RawTransform from './transform/raw-transform';
 import param from 'jquery-param';
@@ -30,13 +29,10 @@ let configObject = ({symbol,interval, period, fields}) => {
     let {x,q} = stockSymbols(symbol);
     let p = period;
     let i = interval;
-    let obj = {};
-    if (x) obj.x = x;
-    if (q) obj.q = q;
-    if (f) obj.f = f;
-    if (i) obj.i = i;
-    if (p) obj.p = p;
-    return obj;
+    return _({x, q, f, i, p})
+        .omitBy(_.isNil)
+        .omitBy(_.isEmpty)
+        .value();
 };
 
 class Traderjs {
@@ -53,11 +49,21 @@ class Traderjs {
         this._writeTo = writeTo;
         return this;
     }
-    transformer(transformer) {
-        if (!(transformer instanceof Transform)) {
-            throw TypeError('Should be an instance of "Transform"');
+    /**
+     * Define a transformer to transform the data into a specific format
+     * @param  {string}    type - 'json' or 'raw' (text)
+     * @param  {...string} args - arguments that will be passed to the constructor
+     *                          of the transformer.
+     */
+    transformer(type,...args) {
+        type = _.toUpper(type);
+        if(_.isEqual(type, 'JSON')) {
+            this._transformer = new JsonTransform(...args);
+        } else if (_.isEqual(type, 'RAW')) {
+            this._transformer = new RawTransform(...args);
+        } else {
+            throw Error('Type should be either "json" or "raw"');
         }
-        this._transformer = transformer;
         return this;
     }
     temporal(cb) {
@@ -90,9 +96,4 @@ class Traderjs {
     }
 }
 
-module.exports = {
-    traderjs: new Traderjs(),
-    configObject,
-    RawTransform,
-    JsonTransform
-};
+export default (new Traderjs());

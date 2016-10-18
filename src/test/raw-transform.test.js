@@ -76,6 +76,7 @@ describe('transform/raw-transform.js', () => {
             let transformer = new RawTransform(params, ',', ';');
             transformer.transform(data, (transformed) => {
                 expect(transformed).to.have.length(2);
+                expect(transformed).to.have.deep.property('[0]', '1;2;3;4;5;6');
                 done();
             });
         });
