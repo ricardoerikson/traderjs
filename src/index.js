@@ -30,13 +30,10 @@ let configObject = ({symbol,interval, period, fields}) => {
     let {x,q} = stockSymbols(symbol);
     let p = period;
     let i = interval;
-    let obj = {};
-    if (x) obj.x = x;
-    if (q) obj.q = q;
-    if (f) obj.f = f;
-    if (i) obj.i = i;
-    if (p) obj.p = p;
-    return obj;
+    return _({x, q, f, i, p})
+        .omitBy(_.isNil)
+        .omitBy(_.isEmpty)
+        .value();
 };
 
 class Traderjs {
