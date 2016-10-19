@@ -71,11 +71,16 @@ class Traderjs {
             host: 'www.google.com',
             path: `/finance/getprices?${param(configObject(this._config))}`
         };
-        let parser;
         http.get(options, (resp) => {
+            let content = '';
             resp.setEncoding('utf8');
+
             resp.on('data', (data) => {
-                parser = new GoogleFinanceParser(data);
+                content = content.concat(data);
+            });
+
+            resp.on('end', () => {
+                let parser = new GoogleFinanceParser(content);
                 parser.parse((data) => {
                     this._transformer.transform(data.data, (transformedData) => {
                         if (this._writeTo !== null) {
