@@ -10,7 +10,7 @@ describe('index.js', () => {
 
     let config = {symbol: 'NASD:GOOG', interval: 86400, period: '2d', fields: ['d','o','c','l','h','v'] };
 
-    describe('Traderjs.config()', () => {
+    describe('.config()', () => {
 
         before((done) => {
             fs.readFile(`${__dirname}/../data/nasd-goog-2-86400-2d-doclhv.txt`, 'utf8', (err, data) => {
@@ -45,6 +45,37 @@ describe('index.js', () => {
                     done();
                 });
         });
+    });
+
+    describe('.config() with long periods', () => {
+
+        before((done) => {
+            fs.readFile(`${__dirname}/../data/bvmf-petr4-1-86400-30d-doclhv.txt`, 'utf8', (err, data) => {
+                nock('http://www.google.com')
+                    .persist()
+                    .filteringPath(/[xqifp]=[^&]*/g)
+                    .get('/finance/getprices')
+                    .query(true)
+                    .reply(200, data);
+                done();
+            });
+        });
+
+        after((done) => {
+            nock.cleanAll();
+            done();
+        });
+
+        it('should not have length 29', (done) => {
+            traderjs
+                .config({symbol: 'BVMF:PETR4', interval: 86400, period: '30d', fields: ['d','o','c','l','h','v'] })
+                .transformer('json')
+                .temporal( (data) => {
+                    expect(data).to.have.length(29);
+                    done();
+                });
+        });
+
     });
 
     describe('.transformer()', () => {
