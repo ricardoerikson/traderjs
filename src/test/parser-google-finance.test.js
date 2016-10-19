@@ -79,5 +79,28 @@ describe('parsers/google-finance.js', () => {
 
     });
 
+    describe('BVMF:PETR4-1 Long period quotes', () => {
+
+        describe('.parse()', () => {
+            let finance;
+            before((done) => {
+                // Empty data
+                fs.readFile(`${__dirname}/../data/bvmf-petr4-1-86400-30d-doclhv.txt`, 'utf8', (err, data) => {
+                    finance = new GoogleFinanceParser(data);
+                    done();
+                });
+            });
+
+            it('should parse long period quotes', (done) => {
+                expect(()=> {finance.parse(({data}) => {data;});}).not.to.throw(Error);
+                finance.parse(({data}) => {
+                    expect(data).to.have.length(29);
+                    expect(data).to.have.deep.property('[27]', '1476730560000,16.9,16.9,16.07,16.24,75002000');
+                    done();
+                });
+            });
+        });
+    });
+
 });
 
