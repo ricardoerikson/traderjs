@@ -184,7 +184,10 @@ The content of a file created with a `'json'` transformer will have the followin
 
 ```
 [{"date": "1475784000000", "close": "776.86", "high": "780.48", "low": "775.54", "open": "779", "volume": "1070692"}, {"date": "1475870400000", "close": "775.08", "high": "779.66", "low": "770.75", "open": "779.66", "volume": "933158"} ]
+
 ```
+
+## API
 
 ## License
 
