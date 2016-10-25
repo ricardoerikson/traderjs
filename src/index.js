@@ -28,7 +28,7 @@ let configObject = ({symbol,interval, period, fields}) => {
     let f = _.intersection(fields, ['d', 'o', 'h', 'c', 'l', 'v']).join(',');
     let {x,q} = stockSymbols(symbol);
     let p = period;
-    let i = interval;
+    let i = `${interval}`;
     return _({x, q, f, i, p})
         .omitBy(_.isNil)
         .omitBy(_.isEmpty)

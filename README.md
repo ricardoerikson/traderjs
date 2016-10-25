@@ -110,7 +110,7 @@ traderjs
      */
 ``` 
 
-The data can also be presented in text format. The result of the request will be an Array of strings, in which each element is a quote with colon separated values. By default, the values of each element have the following labels: `'date'`, `'close'`, `'high'`, `'low'`, `'open'`, '`volume`'. The text representation can be obtained as bellow:
+The data can also be presented in text format. The result of the request will be an Array of strings, in which each element is a quote with comma separated values. By default, the values of each element have the following labels: `'date'`, `'close'`, `'high'`, `'low'`, `'open'`, '`volume`'. The text representation can be obtained as bellow:
 
 ```javascript
 var traderjs = require('traderjs');
@@ -119,7 +119,7 @@ traderjs
     .config(configuration)
     .transformer('raw') // Converts the data to text
 
-    /* Each element of the array is quote with colon separated values
+    /* Each element of the array is quote with comma separated values
 
     ['1475784000000,776.86,780.48,775.54,779,1070692',
      '1475870400000,775.08,779.66,770.75,779.66,933158']
@@ -172,7 +172,7 @@ traderjs.
     });
 ```
 
-The format of the content that is written to the file depends on the transformer that you are using. A `'raw'` transformer will imply that each item of the array of data will be a line (with colon separated values) of the file. A file create using the `'raw'` transformer will have the following format:
+The format of the content that is written to the file depends on the transformer that you are using. A `'raw'` transformer will imply that each item of the array of data will be a line (with comma separated values) of the file. A file create using the `'raw'` transformer will have the following format:
 
 ```
 1475784000000,776.86,780.48,775.54,779,1070692
@@ -184,7 +184,10 @@ The content of a file created with a `'json'` transformer will have the followin
 
 ```
 [{"date": "1475784000000", "close": "776.86", "high": "780.48", "low": "775.54", "open": "779", "volume": "1070692"}, {"date": "1475870400000", "close": "775.08", "high": "779.66", "low": "770.75", "open": "779.66", "volume": "933158"} ]
+
 ```
+
+## API
 
 ## License
 
