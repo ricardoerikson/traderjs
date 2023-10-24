@@ -80,6 +80,6 @@
   },
   "dependencies": {
     "jquery-param": "0.2.0",
-    "lodash": "4.16.4"
+    "lodash": "4.17.21"
   }
 }
